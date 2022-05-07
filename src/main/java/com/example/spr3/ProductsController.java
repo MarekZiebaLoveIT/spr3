@@ -112,4 +112,19 @@ public class ProductsController {
         return "redirect:/products";
     }
 
+    @GetMapping("show-product/{id}")
+    public String showProductDetails(@PathVariable Long id, Model model) {
+        var optionalProduct = products.stream()
+                .filter(article -> article.getId().equals(id))
+                .findFirst();
+        if (optionalProduct.isPresent()) {
+            var dbProduct = optionalProduct.get();
+            model.addAttribute("product",  dbProduct);
+            return "products/product";
+        } else {
+            return "redirect:/products";
+        }
+
+    }
+
 }

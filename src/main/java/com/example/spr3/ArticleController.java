@@ -104,4 +104,21 @@ public class ArticleController {
         }
         return "redirect:/blog";
     }
+
+    @GetMapping("show-article/{id}")
+    public String showArticleDetails(@PathVariable Long id, Model model) {
+        var optionalArticle = articles.stream()
+                .filter(article -> article.getId().equals(id))
+                .findFirst();
+        if (optionalArticle.isPresent()) {
+            var dbArticle = optionalArticle.get();
+            model.addAttribute("article",  dbArticle);
+            return "blog/article";
+        } else {
+            return "redirect:/blog";
+        }
+
+    }
+
+
 }

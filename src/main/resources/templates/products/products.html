@@ -45,12 +45,12 @@
     <div th:each="item: ${items}">
         <p>Name: <span th:text="${item.getName()}"></span></p>
         <p>Category: <span th:text="${item.getCategory()}"></span></p>
-        <p>Description: <span th:text="${item.getDescription()}"></span></p>
+
         <p>Price: <span th:text="${item.getPrice()}"></span></p>
-        <p>Created at: <span th:text="${#temporals.format(item.getCreatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
-        <p>Updated at: <span th:text="${#temporals.format(item.getUpdatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+
         <a th:href=" '/remove-product/' + ${item.getId()} ">Delete</a>
         <a th:href=" '/edit-product/' + ${item.getId()} ">Edit</a>
+        <a th:href=" '/show-product/' + ${item.getId()} ">Details</a>
         <hr/>
     </div>
 

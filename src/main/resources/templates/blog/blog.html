@@ -5,6 +5,7 @@
 	<title>Blog!</title>
 </head>
 <body>
+
 	<h1>Blog!</h1>
 	<div th:replace="partials/navigation"></div>
 
@@ -44,11 +45,10 @@
 <!--		<span th:text="${item.getId()}"></span>-->
 		<p>Title: <span th:text="${item.getTitle()}"></span></p>
 		<p>Category: <span th:text="${item.getCategory()}"></span></p>
-		<p>Content: <span th:text="${item.getContent()}"></span></p>
-		<p>Created at: <span th:text="${#temporals.format(item.getCreatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
-		<p>Updated at: <span th:text="${#temporals.format(item.getUpdatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+
 		<a th:href=" '/remove-article/' + ${item.getId()} ">Delete</a>
 		<a th:href=" '/edit-article/' + ${item.getId()} ">Edit</a>
+		<a th:href=" '/show-article/' + ${item.getId()} ">Details</a>
 		<hr/>
 	</div>
 
