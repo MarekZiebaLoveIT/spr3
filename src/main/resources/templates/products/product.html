@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.getName()}"></title>
+</head>
+<body>
+    <h1 th:text="${product.getName()}">Article</h1>
+    <div th:replace="partials/navigation"></div>
+
+    <p>Name: <span th:text="${product.getName()}"></span></p>
+    <p>Category: <span th:text="${product.getCategory()}"></span></p>
+    <p>Description: <span th:text="${product.getDescription()}"></span></p>
+    <p>Price: <span th:text="${product.getPrice()}"></span></p>
+    <p>Created at: <span th:text="${#temporals.format(product.getCreatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+    <p>Updated at: <span th:text="${#temporals.format(product.getUpdatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+
+    <div th:replace="partials/footer"></div>
+
+</body>
+</html>

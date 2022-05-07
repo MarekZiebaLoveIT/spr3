@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${article.getTitle()}"></title>
+</head>
+<body>
+    <h1 th:text="${article.getTitle()}">Article</h1>
+    <div th:replace="partials/navigation"></div>
+
+    <p>Category: <span th:text="${article.getCategory()}"></span></p>
+    <p>Content: <span th:text="${article.getContent()}"></span></p>
+    <p>Created at: <span th:text="${#temporals.format(article.getCreatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+    <p>Updated at: <span th:text="${#temporals.format(article.getUpdatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+
+    <div th:replace="partials/footer"></div>
+
+</body>
+</html>
