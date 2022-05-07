@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+    <h1>Products!</h1>
+    <div th:replace="partials/navigation"></div>
+
+    <a href="/add-product">Add Product</a>
+    <hr>
+
+    <form>
+        <label for="pf">
+            Price from:
+            <input id="pf" type="number" name="pf" th:value="${priceFrom}" min="500" max="3000" step="100">
+        </label>
+
+        <label for="pt">
+            Price to:
+            <input id="pt" type="number" name="pt" th:value="${priceTo}" min="500" max="3000" step="100">
+        </label>
+
+        <label for="n">
+            Enter name:
+            <input id="n" name="n" th:value="${name}">
+        </label>
+
+        <label for="c">
+            Enter category:
+            <select id="c" name="c">
+                <option th:selected="selected" th:disabled="disabled" value="">Select Category</option>
+                <option th:each="item : ${categories}"
+                        th:selected="${item == category}"
+                        th:text="${item}">
+                </option>
+            </select>
+        </label>
+
+        <button>Filter</button>
+        <a href="/products">Clear</a>
+    </form>
+
+    <div th:each="item: ${items}">
+        <p>Name: <span th:text="${item.getName()}"></span></p>
+        <p>Category: <span th:text="${item.getCategory()}"></span></p>
+        <p>Description: <span th:text="${item.getDescription()}"></span></p>
+        <p>Price: <span th:text="${item.getPrice()}"></span></p>
+        <p>Created at: <span th:text="${#temporals.format(item.getCreatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+        <p>Updated at: <span th:text="${#temporals.format(item.getUpdatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+        <a th:href=" '/remove-product/' + ${item.getId()} ">Delete</a>
+        <a th:href=" '/edit-product/' + ${item.getId()} ">Edit</a>
+        <hr/>
+    </div>
+
+    <div th:replace="partials/footer"></div>
+</body>
+</html>

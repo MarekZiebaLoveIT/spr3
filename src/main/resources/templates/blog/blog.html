@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Blog!</title>
+</head>
+<body>
+	<h1>Blog!</h1>
+	<div th:replace="partials/navigation"></div>
+
+	<a href="/add-article">Add Article</a>
+	<hr>
+
+	<form>
+
+		<label for="m">
+			Write a month:
+			<input id="m" th:value="${month}" name="m" type="number" placeholder="months" min="1" max="12">
+		</label>
+
+		<label for="y">
+			Write a year:
+			<input id="y" th:value="${year}" name="y" type="number" placeholder="years" min="2020" max="2022">
+		</label>
+
+		<label for="c">
+			Enter category:
+			<select id="c" name="category">
+				<option th:selected="selected" th:disabled="disabled" value="">Select Category</option>
+				<option th:each="item : ${categories}"
+						th:selected="${item == category}"
+						th:text="${item}">
+				</option>
+			</select>
+		</label>
+
+		<button>Filter</button>
+		<a href="/blog">Clear</a>
+
+	</form>
+	<hr>
+
+	<div th:each="item: ${items}">
+<!--		<span th:text="${item.getId()}"></span>-->
+		<p>Title: <span th:text="${item.getTitle()}"></span></p>
+		<p>Category: <span th:text="${item.getCategory()}"></span></p>
+		<p>Content: <span th:text="${item.getContent()}"></span></p>
+		<p>Created at: <span th:text="${#temporals.format(item.getCreatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+		<p>Updated at: <span th:text="${#temporals.format(item.getUpdatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
+		<a th:href=" '/remove-article/' + ${item.getId()} ">Delete</a>
+		<a th:href=" '/edit-article/' + ${item.getId()} ">Edit</a>
+		<hr/>
+	</div>
+
+	<div th:replace="partials/footer"></div>
+</body>
+</html>

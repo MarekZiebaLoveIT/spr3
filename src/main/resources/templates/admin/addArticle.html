@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${header}"></title>
+</head>
+<body>
+    <h1 th:text="${header}"></h1>
+    <div th:replace="partials/navigation"></div>
+
+    <form method="post">
+
+        <label for="title">Enter title</label>
+        <input th:value="${ article == null ? '' : article.getTitle()  }" id="title" name="title" min="3" max="20" required placeholder="Enter title">
+        <br>
+
+        <label for="content">Enter content</label>
+        <textarea th:text="${article == null ? '' : article.getContent()}" id="content" name="content" minlength="5" rows="5" required placeholder="Enter content"></textarea>
+        <br>
+
+        <label for="c">Select category</label>
+        <select id="c" name="category">
+            <option th:selected="selected" th:disabled="disabled" value="">Select Category</option>
+            <option th:each="item : ${categories}"
+                    th:selected="${article != null && item == article.getCategory()}"
+                    th:text="${item}">
+            </option>
+        </select>
+        <br>
+
+        <button>Save</button>
+
+    </form>
+
+
+    <div th:replace="partials/footer"></div>
+</body>
+</html>
