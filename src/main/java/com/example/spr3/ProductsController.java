@@ -2,6 +2,8 @@ package com.example.spr3;
 
 import com.example.spr3.models.Product;
 import com.example.spr3.models.ProductCategory;
+import com.example.spr3.services.products.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,29 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Controller
 public class ProductsController {
 
-    private Long nextId;
-    private List<Product> products = new ArrayList<>();
-
-    public ProductsController() {
-        var now = LocalDateTime.now();
-        products.add(new Product(1L, "Samsung", "Desc0", 1500, ProductCategory.PHONES, now, null));
-        products.add(new Product(2L, "Nokia", "Desc1", 1200, ProductCategory.PHONES, now.minusMonths(1), null));
-        products.add(new Product(3L, "LG", "Desc3", 1100, ProductCategory.PHONES, now.minusMonths(1), null));
-        products.add(new Product(4L, "Dell", "Desc4", 2200, ProductCategory.MONITORS, now.minusMonths(2), null));
-        products.add(new Product(5L, "AKG", "Desc5", 900, ProductCategory.SPEAKERS, now.minusMonths(3), null));
-        products.add(new Product(6L, "Xiaomi", "Desc5", 600, ProductCategory.PHONES, now.minusMonths(3), null));
-        nextId = 7L;
-    }
-
-
+    @Autowired
+    private ProductService service;
 
     @GetMapping("products")
     public String products(@RequestParam(required = false) Integer p,
@@ -40,13 +25,7 @@ public class ProductsController {
                            @RequestParam(required = false) String n,
                            @RequestParam(required = false) ProductCategory c,
                            Model model) {
-        var filtered = products.stream()
-                .filter(product -> p == null || product.getPrice() <= 1.2 * p && product.getPrice() >= 0.8 * p)
-                .filter(product -> pf == null || product.getPrice() >= pf)
-                .filter(product -> pt == null || product.getPrice() <= pt)
-                .filter(product -> n == null || product.getName().contains(n))
-                .filter(product -> c == null || product.getCategory() == c)
-                .toList();
+        var filtered = service.getProductsByParam(p, pf, pt, n, c);
         model.addAttribute("categories", ProductCategory.values());
         model.addAttribute("items", filtered);
         model.addAttribute("priceFrom", pf);
@@ -64,26 +43,19 @@ public class ProductsController {
 
     @PostMapping("add-product")
     public String addProduct(Product product) {
-
-        product.setId(nextId);
-        product.setCreatedAt(LocalDateTime.now());
-        products.add(product);
-        nextId++;
-
+        service.addProduct(product);
         return "redirect:/products";
     }
 
     @GetMapping("remove-product/{id}")
-    public String removeArticle(@PathVariable Long id) {
-        products.removeIf(article -> id.equals(article.getId()));
+    public String removeProduct(@PathVariable Long id) {
+        service.removeProduct(id);
         return "redirect:/products";
     }
 
     @GetMapping("edit-product/{id}")
     public String showEditProductForm(@PathVariable Long id, Model model) {
-        var optionalProduct = products.stream()
-                .filter(product -> product.getId().equals(id))
-                .findFirst();
+        var optionalProduct = service.findProduct(id);
 
         if (optionalProduct.isPresent()) {
             var product = optionalProduct.get();
@@ -97,26 +69,15 @@ public class ProductsController {
     }
 
     @PostMapping("edit-product/{id}")
-    public String editArticle(@PathVariable Long id, Product formProduct) {
-        var optionalProduct = products.stream()
-                .filter(product -> product.getId().equals(id))
-                .findFirst();
-        if (optionalProduct.isPresent()) {
-            var dbProduct = optionalProduct.get();
-            dbProduct.setName(formProduct.getName());
-            dbProduct.setPrice(formProduct.getPrice());
-            dbProduct.setDescription(formProduct.getDescription());
-            dbProduct.setCategory(formProduct.getCategory());
-            dbProduct.setUpdatedAt(LocalDateTime.now());
-        }
+    public String editProduct(@PathVariable Long id, Product formProduct) {
+        service.updateProduct(id, formProduct);
         return "redirect:/products";
     }
 
     @GetMapping("show-product/{id}")
     public String showProductDetails(@PathVariable Long id, Model model) {
-        var optionalProduct = products.stream()
-                .filter(article -> article.getId().equals(id))
-                .findFirst();
+        var optionalProduct = service.findProduct(id);
+
         if (optionalProduct.isPresent()) {
             var dbProduct = optionalProduct.get();
             model.addAttribute("product",  dbProduct);
@@ -124,7 +85,6 @@ public class ProductsController {
         } else {
             return "redirect:/products";
         }
-
     }
 
 }

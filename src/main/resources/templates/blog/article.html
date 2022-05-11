@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${article.getTitle()}"></title>
+    <div th:replace="partials/styles"></div>
 </head>
 <body>
+<div class="container">
     <h1 th:text="${article.getTitle()}">Article</h1>
     <div th:replace="partials/navigation"></div>
 
@@ -14,6 +16,7 @@
     <p>Updated at: <span th:text="${#temporals.format(article.getUpdatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
 
     <div th:replace="partials/footer"></div>
-
+    <div th:replace="partials/scripts"></div>
+</div>
 </body>
 </html>

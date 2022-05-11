@@ -1,12 +1,19 @@
 package com.example.spr3.models;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+@Entity
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @Column(length = 1023)
     private String description;
     private int price;
+    @Enumerated(EnumType.STRING)
     private ProductCategory category;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -19,6 +26,9 @@ public class Product {
         this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Product() {
     }
 
     public Long getId() {

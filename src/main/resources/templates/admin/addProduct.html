@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${header}"></title>
+    <div th:replace="partials/styles"></div>
 </head>
 <body>
+<div class="container">
     <h1 th:text="${header}"></h1>
     <div th:replace="partials/navigation"></div>
 
     <form method="post">
 
         <label for="name">Write a name</label>
-        <input th:value="${ product == null ? '' : product.getName()}" id="name" name="name" placeholder="Write product name">
+        <input class="input-group input-group-sm mb-3" th:value="${ product == null ? '' : product.getName()}" id="name" name="name" placeholder="Write product name">
         <br>
 
         <label for="category">Select category</label>
-        <select id="category" name="category">
+        <select class="form-select" id="category" name="category">
             <option th:selected="selected" th:disabled="disabled" value="">Select Category</option>
             <option th:each="item : ${categories}"
                     th:selected="${product != null && item == product.getCategory()}"
@@ -25,17 +27,20 @@
         <br>
 
         <label for="price">Write a price</label>
-        <input th:value="${product == null ? '' : product.getPrice()}" id="price" name="price" type="number" placeholder="Write a price" min="1" max="100000">
+        <input class="input-group input-group-sm mb-3" th:value="${product == null ? '' : product.getPrice()}" id="price" name="price" type="number" placeholder="Write a price" min="1" max="100000">
         <br>
 
         <label for="description">Write a content</label>
-        <textarea th:text="${product == null ? '' : product.getDescription()}" id="description" name="description" placeholder="Write content" rows="3"></textarea>
+        <textarea class="input-group input-group-sm mb-3" th:text="${product == null ? '' : product.getDescription()}" id="description" name="description" placeholder="Write content" rows="3"></textarea>
         <br>
 
 
-        <button>Save</button>
+        <button class="btn btn-success">Save</button>
+
     </form>
 
     <div th:replace="partials/footer"></div>
+    <div th:replace="partials/scripts"></div>
+</div>
 </body>
 </html>

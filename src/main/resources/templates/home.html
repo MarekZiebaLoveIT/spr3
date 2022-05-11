@@ -3,10 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Hello</title>
+	<div th:replace="partials/styles"></div>
 </head>
 <body>
-	<h1>Welcome!</h1>
-	<div th:replace="partials/navigation"></div>
-	<div th:replace="partials/footer"></div>
+	<div class="container">
+		<h1>Welcome!</h1>
+		<div th:replace="partials/navigation"></div>
+		<div th:replace="partials/footer"></div>
+		<div th:replace="partials/scripts"></div>
+	</div>
 </body>
 </html>
