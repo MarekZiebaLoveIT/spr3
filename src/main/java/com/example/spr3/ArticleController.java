@@ -3,6 +3,7 @@ package com.example.spr3;
 import com.example.spr3.models.Article;
 import com.example.spr3.models.ArticleCategory;
 import com.example.spr3.services.articles.ArticleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+@RequiredArgsConstructor
 @Controller
 public class ArticleController {
 
-    @Autowired
-    private ArticleService service;
+    private final ArticleService service;
+
+//    public ArticleController(ArticleService service) {
+//        this.service = service;
+//    }
 
     @GetMapping("blog")
     public String blog(@RequestParam(required = false) Integer m,

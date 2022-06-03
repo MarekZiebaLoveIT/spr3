@@ -3,20 +3,23 @@ package com.example.spr3.services.articles;
 import com.example.spr3.models.Article;
 import com.example.spr3.models.ArticleCategory;
 import com.example.spr3.repositories.ArticleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
+@RequiredArgsConstructor
 @Primary
 @Service
 public class ArticleDatabaseService implements ArticleService {
 
-    @Autowired
-    private ArticleRepository repository;
+    private final ArticleRepository repository;
 
     @Override
     public List<Article> getArticles() {
@@ -26,6 +29,7 @@ public class ArticleDatabaseService implements ArticleService {
     @Override
     public void addArticle(Article article) {
         article.setCreatedAt(LocalDateTime.now());
+        log.info(article.toString());  // loger do wyświetlania info -> używa się zamiast System.out.println
         repository.save(article);
     }
 
@@ -54,6 +58,19 @@ public class ArticleDatabaseService implements ArticleService {
 
     @Override
     public List<Article> getArticlesByParams(Integer m, Integer y, ArticleCategory c) {
-        return repository.findAll();
+        LocalDateTime from = null;
+        LocalDateTime to = null;
+
+        if (y != null && m != null) {
+            from = LocalDate.of(y, m, 1).atStartOfDay();
+            to = LocalDate.of(y, m + 1, 1).atStartOfDay();
+        } else if (y == null && m != null) {
+            from = LocalDate.of(LocalDate.now().getYear(), m, 1).atStartOfDay();
+            to = LocalDate.of(LocalDate.now().getYear(), m + 1, 1).atStartOfDay();
+        } else if (y != null) {
+            from = LocalDate.of(y, 1, 1).atStartOfDay();
+            to = LocalDate.of(y + 1, 1, 1).atStartOfDay();
+        }
+        return repository.findByParams(c, from, to);
     }
 }

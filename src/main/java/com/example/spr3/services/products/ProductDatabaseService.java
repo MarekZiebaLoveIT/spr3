@@ -3,6 +3,7 @@ package com.example.spr3.services.products;
 import com.example.spr3.models.Product;
 import com.example.spr3.models.ProductCategory;
 import com.example.spr3.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -11,12 +12,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Primary
 @Service
 public class ProductDatabaseService implements ProductService {
 
-    @Autowired
-    private ProductRepository repository;
+
+    private final ProductRepository repository;
 
     @Override
     public List<Product> getProducts() {
@@ -55,6 +57,6 @@ public class ProductDatabaseService implements ProductService {
 
     @Override
     public List<Product> getProductsByParam(Integer p, Integer pf, Integer pt, String n, ProductCategory c) {
-        return repository.findAll();
+        return repository.findByParams(pf, pt, n, c);
     }
 }

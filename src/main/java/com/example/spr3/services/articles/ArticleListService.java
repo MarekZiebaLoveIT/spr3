@@ -18,7 +18,7 @@ public class ArticleListService implements ArticleService {
 
     public ArticleListService() {
         var now = LocalDateTime.now();
-        articles.add(new Article(1L, "Tytuł 1", "Treść 1", ArticleCategory.GUIDE, now, null));
+        articles.add(Article.builder().id(1L).title("Tytuł1").content("Treść 1").category(ArticleCategory.GUIDE).createdAt(now).build());  // builder
         articles.add(new Article(2L, "Tytuł 2", "Treść 2", ArticleCategory.TECHNICAL, now.minusMonths(2), null));
         articles.add(new Article(3L, "Tytuł 3", "Treść 3", ArticleCategory.GUIDE, now.minusMonths(2), null));
         articles.add(new Article(4L, "Tytuł 4", "Treść 4", ArticleCategory.OTHER, now.minusMonths(3), null));

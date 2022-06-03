@@ -65,7 +65,7 @@
         <p>Name: <span th:text="${item.getName()}"></span></p>
         <p>Category: <span class="badge rounded-pill bg-success" th:text="${item.getCategory()}"></span></p>
 
-        <p>Price: <strong> <span th:text="${item.getPrice()}"></span></strong></p>
+        <p>Price: <strong> <span th:text="${item.getPrice()}"></span> PLN</strong></p>
 
         <a class="btn btn-outline-danger btn-sm" th:href=" '/remove-product/' + ${item.getId()} ">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">

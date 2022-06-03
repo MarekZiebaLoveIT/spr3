@@ -13,7 +13,7 @@
     <p>Name: <strong><span th:text="${product.getName()}"></span></strong></p>
     <p>Category: <span class="badge rounded-pill bg-success" th:text="${product.getCategory()}"></span></p>
     <p>Description: <span th:text="${product.getDescription()}"></span></p>
-    <p>Price: <strong><span th:text="${product.getPrice()}"></span></strong></p>
+    <p>Price: <strong><span th:text="${product.getPrice()}"></span> PLN</strong></p>
     <p>Created at: <span class="badge bg-light text-dark" th:text="${#temporals.format(product.getCreatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
     <p>Updated at: <span class="badge bg-light text-dark" th:text="${#temporals.format(product.getUpdatedAt(), 'dd-MM-yyyy HH:mm')}"></span></p>
 

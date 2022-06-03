@@ -3,7 +3,7 @@ package com.example.spr3;
 import com.example.spr3.models.Product;
 import com.example.spr3.models.ProductCategory;
 import com.example.spr3.services.products.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+@RequiredArgsConstructor
 @Controller
 public class ProductsController {
 
-    @Autowired
-    private ProductService service;
+    private final ProductService service;
 
     @GetMapping("products")
     public String products(@RequestParam(required = false) Integer p,
